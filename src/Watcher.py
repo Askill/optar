@@ -18,7 +18,7 @@ class Watcher:
         with open(path) as f:
             return f.read().splitlines()
 
-    def watch(self):
+    def watch(self, sleep):
         while True:
             keywords = self.read_txt_file(self.keywords_source_path)
             sites = self.read_txt_file(self.sites_source_path)
@@ -36,7 +36,7 @@ class Watcher:
             for url, content in contents.items():
                 matches.append(self.search_sites(url, content, keywords))
             print(matches)
-            time.sleep(3600)
+            time.sleep(sleep)
 
     @staticmethod
     def remove_protocol(site):
