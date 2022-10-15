@@ -48,7 +48,7 @@ class Watcher:
         if not len(list_of_files) >= 2:
             return None
         prev_version = self.site_store.get_site_links(f"./cache/{self.remove_protocol(url)}/{list_of_files[-2]}")
-        current_version = self.site_store.get_site_links(f"./cache/{self.remove_protocol(url)}/{list_of_files[-2]}")
+        current_version = self.site_store.get_site_links(f"./cache/{self.remove_protocol(url)}/{list_of_files[-1]}")
         news = dict(set(prev_version.items()) ^ set(current_version.items()))
         sites_contents = self.site_reader.get_sites_content_static(sum(news.items()))
 
