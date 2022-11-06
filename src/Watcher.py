@@ -25,13 +25,11 @@ class Watcher:
             sites = self.read_txt_file(self.sites_source_path)
 
             crawler = Crawler()
-            crawled_sites = []
             for site in sites:
                 crawler.run(site, 10)
-                crawled_sites += crawler.get_nodes()
                 crawler.persist(f"./cache/{self.remove_protocol(site)}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
 
-            contents = [self.get_new_content(site) for site in crawled_sites]
+            contents = [self.get_new_content(site) for site in sites]
             contents = [x for x in contents if x is not None and x is not {}]
             matches = []
             for content in contents:
