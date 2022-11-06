@@ -24,12 +24,15 @@ class Watcher:
             keywords = self.read_txt_file(self.keywords_source_path)
             sites = self.read_txt_file(self.sites_source_path)
 
-            crawler = Crawler()
+            
             for site in sites:
+                crawler = Crawler()
+                # TODO: add depth as param, to lmit traversal depth
                 crawler.run(site, 10)
                 crawler.persist(f"./cache/{self.remove_protocol(site)}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
 
             contents = [self.get_new_content(site) for site in sites]
+            # TODO: improve handleing of None
             contents = [x for x in contents if x is not None and x is not {}]
             matches = []
             for content in contents:
