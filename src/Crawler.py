@@ -46,8 +46,6 @@ class Crawler:
 
         while unchecked:
             level, root = unchecked.pop()
-            if level > limit:
-                continue
             if root in self._links or self.url.rsplit('/')[2] not in root:
                 continue
             if "https" not in root:
@@ -75,9 +73,11 @@ class Crawler:
             for link in _links:
                 if link not in n_links:
                     if link.startswith("http"):
-                        n_links.append((level+1, link))
+                        if level < limit:
+                            n_links.append((level+1, link))
                     else:
-                        n_links.append((level+1, urljoin(site.url, link)))
+                        if level < limit:
+                            n_links.append((level+1, urljoin(site.url, link)))
 
             unchecked += n_links
             self._links[root] = n_links
