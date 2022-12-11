@@ -27,8 +27,7 @@ class Watcher:
             
             for site in sites:
                 crawler = Crawler()
-                # TODO: add depth as param, to lmit traversal depth
-                crawler.run(site, 10)
+                crawler.run(site, 1)
                 crawler.persist(f"./cache/{self.remove_protocol(site)}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
 
             contents = [self.get_new_content(site) for site in sites]
@@ -62,6 +61,8 @@ class Watcher:
 
     @staticmethod
     def search_sites(url, content, keywords: List[str]):
+        if content is None:
+            return []
         results = []
         for keyword in keywords:
             if keyword in content:
