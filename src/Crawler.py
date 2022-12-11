@@ -27,7 +27,8 @@ class Crawler:
         else:
             self.logger = logging.Logger(
                 name="star_crawler", level=logging.INFO)
-
+        self._links = dict() 
+        
     def get_nodes(self):
         return self._links
 
