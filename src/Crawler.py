@@ -71,13 +71,11 @@ class Crawler:
 
             n_links = []
             for link in _links:
-                if link not in n_links:
+                if link not in n_links and level < limit:
                     if link.startswith("http"):
-                        if level < limit:
-                            n_links.append((level+1, link))
+                        n_links.append((level+1, link))
                     else:
-                        if level < limit:
-                            n_links.append((level+1, urljoin(site.url, link)))
+                        n_links.append((level+1, urljoin(site.url, link)))
 
             unchecked += n_links
             self._links[root] = n_links
