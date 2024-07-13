@@ -5,7 +5,7 @@ import trafilatura
 from requests.exceptions import MissingSchema
 from bs4 import BeautifulSoup
 
-
+# Pretty sure most of this code is not from me, but from a demo on trafilatura
 class SiteReader:
     def __init__(self):
         pass
@@ -37,7 +37,7 @@ class SiteReader:
             'script',
             'style', ]
 
-        # Then we will loop over every item in the extract text and make sure that the beautifulsoup4 tag
+        # Then we will loop over every item in the extracted text and make sure that the beautifulsoup4 tag
         # is NOT in the blacklist
         for item in text:
             if item.parent.name not in blacklist:
@@ -73,6 +73,7 @@ class SiteReader:
                 return None
 
     def get_sites_content_dynamic(self, urls: List[str]):
+        '''not implemented'''
         pass
 
     def get_sites_content_static(self, urls: List[str]) -> Dict[str, str]:
