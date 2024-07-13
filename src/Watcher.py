@@ -19,7 +19,14 @@ class Watcher:
         with open(path) as f:
             return f.read().splitlines()
 
-    def watch(self, sleep):
+    def watch(self, sleep=-1):
+        """start the watcher with the given interval
+
+        :param arg: seconds between runs, -1 for single run
+        :type arg: int
+        :return: None
+        :rtype: None	
+        """
         while True:
             keywords = self.read_txt_file(self.keywords_source_path)
             sites = self.read_txt_file(self.sites_source_path)
@@ -38,6 +45,9 @@ class Watcher:
                 for url, c in content.items():
                     matches.append(self.search_sites(url, c, keywords))
             print(matches)
+            
+            if sleep == -1:
+                return
             time.sleep(sleep)
 
     @staticmethod
