@@ -66,8 +66,8 @@ class Watcher:
             news = self.site_store.get_site_links(f"{self.remove_protocol(url)}/{list_of_files[-1]}")
         if news:
             sites_contents = self.site_reader.get_sites_content_static([z.split("'")[1] for z in list(news["dictionary_item_added"])])
-
-        return sites_contents
+            return sites_contents
+        return {}
 
     @staticmethod
     def search_sites(url, content, keywords: List[str]):
