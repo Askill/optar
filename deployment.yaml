@@ -11,6 +11,6 @@ spec:
       serviceAccountName: optar-s3-cache-service-account
       containers:
       - name: optar
-        image: 705632797485.dkr.ecr.eu-central-1.amazonaws.com/DOCKER_IMAGE
+        image: DOCKER_IMAGE
       restartPolicy: Never
-  backoffLimit: 3
+      backoffLimit: 3
