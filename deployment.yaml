@@ -11,5 +11,5 @@ spec:
       serviceAccountName: optar-s3-cache-service-account
       containers:
       - name: optar
-        image: DOCKER_IMAGE
+        image: "DOCKER_IMAGE"
       restartPolicy: Never
