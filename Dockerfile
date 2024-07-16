@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 COPY prod.py prod.py
 COPY src ./src
 COPY cache ./cache
+
+# yes, coping them at build time is not ideal, this is a PoC
 COPY keywords.txt keywords.txt
 COPY sites.txt sites.txt
 

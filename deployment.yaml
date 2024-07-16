@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optar-deployment
+  labels:
+    app: optar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: optar
+  template:
+    metadata:
+      labels:
+        app: optar
+    spec:
+      serviceAccountName: optar-s3-cache-service-account
+      containers:
+      - name: optar
+        image: 705632797485.dkr.ecr.eu-central-1.amazonaws.com/optar:latest
