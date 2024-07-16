@@ -13,3 +13,4 @@ spec:
       - name: optar
         image: "DOCKER_IMAGE"
       restartPolicy: Never
+  backoffLimit: 3
