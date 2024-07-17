@@ -3,13 +3,13 @@ from datetime import datetime
 from typing import List, Dict, Optional
 from deepdiff import DeepDiff
 
-from src.Crawler import Crawler
-from src.SiteReader import SiteReader
-from src.SiteStoreS3 import SiteStoreS3
+from optar.src.Crawler import Crawler
+from optar.src.SiteReader import SiteReader
+from optar.src.SiteStoreS3 import SiteStoreS3
 
 
 class Watcher:
-    def __init__(self, sites_source_path, keywords_source_path) -> None:
+    def __init__(self, site_store, site_reader, sites_source_path, keywords_source_path) -> None:
         self.site_store = SiteStoreS3("optar-dev-cache")
         self.site_reader = SiteReader()
         self.keywords_source_path = keywords_source_path
@@ -19,7 +19,7 @@ class Watcher:
         with open(path) as f:
             return f.read().splitlines()
 
-    def watch(self, sleep=-1):
+    def watch(self, crawler, sleep=-1):
         """start the watcher with the given interval
 
         :param arg: seconds between runs, -1 for single run
@@ -33,8 +33,7 @@ class Watcher:
 
             
             for site in sites:
-                crawler = Crawler()
-                crawler.run(site, 1)
+                crawler.run(site)
                 self.site_store.persist(f"{self.remove_protocol(site)}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json", crawler.get_nodes())
 
             contents = [self.get_new_content(site) for site in sites]
@@ -47,11 +46,14 @@ class Watcher:
             print(matches)
             
             if sleep == -1:
-                return
+                return matches
             time.sleep(sleep)
 
     @staticmethod
     def remove_protocol(site):
+        # every protocol should have // 
+        if "//" not in site:
+            return site
         return site.split('/')[2]
 
     def get_new_content(self, url) -> Dict[str, str]:
@@ -65,9 +67,13 @@ class Watcher:
         else:
             news = self.site_store.get_site_links(f"{self.remove_protocol(url)}/{list_of_files[-1]}")
         if news:
-            sites_contents = self.site_reader.get_sites_content_static([z.split("'")[1] for z in list(news["dictionary_item_added"])])
+            sites_contents = self.site_reader.get_sites_content_static(self.get_added_urls(news))
             return sites_contents
         return {}
+
+    @staticmethod
+    def get_added_urls( news):
+        return [z.split("'")[1] for z in list(news["dictionary_item_added"])]
 
     @staticmethod
     def search_sites(url, content, keywords: List[str]):

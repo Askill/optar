@@ -8,7 +8,7 @@ from pathlib import Path
 
 class Crawler:
     url = ""                # the url of the website to be checked
-    _links = dict()          # dic. with all sites and urls on those sites
+    _links = dict()          # dict with all sites and urls on those sites
     header_values = {
         'Connection:': 'Keep-alive',
         'name': 'Michael Foord',
@@ -19,15 +19,16 @@ class Crawler:
     exclude = [
     ]
 
-    def __init__(self,  logger=None, exclude=None):
+    def __init__(self, depth=1,   logger=None, exclude=None):
         if exclude:
             self.exclude += exclude
         if logger:
             self.logger = logger
         else:
             self.logger = logging.Logger(
-                name="star_crawler", level=logging.INFO)
+                name="optar", level=logging.INFO)
         self._links = dict() 
+        self._depth = depth
         
     def get_nodes(self):
         return self._links
@@ -41,7 +42,7 @@ class Crawler:
         with open(path, 'r') as fp:
             self._links = json.load(fp)
             
-    def run(self, root, limit, sleep_time=0):
+    def run(self, root, sleep_time=0):
         self.url = root
         unchecked = [(0, root)]
 
@@ -72,7 +73,7 @@ class Crawler:
 
             n_links = []
             for link in _links:
-                if link not in n_links and level < limit:
+                if link not in n_links and level < self._depth:
                     if link.startswith("http"):
                         n_links.append((level+1, link))
                     else:
