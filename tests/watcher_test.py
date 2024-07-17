@@ -1,6 +1,7 @@
+import os
 from optar.src.SiteReader import SiteReader
 from optar.src.Watcher import Watcher 
-from optar.src.SiteStore import SiteStore
+from optar.tests.MockSiteStore import SiteStore
 
 def test_search_sites__found():
 
@@ -31,7 +32,8 @@ def test_compare_sites():
             self._links[url] = [url]
         def get_nodes(self):
             return self._links
-
+    assert os.path.isdir("./cache/www.patricematz.de")
+    assert len(SiteStore.get_site_history("www.patricematz.de")) >= 2
     # the links given in this sites.txt should be to either local files, or a local mock server
     # this is not implemented, as it would be trivial but time consuming
     watcher = Watcher(SiteStore(), SiteReader(), "./sites.txt", "keywords.txt")

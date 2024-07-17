@@ -20,7 +20,7 @@ class SiteStoreS3:
         if "Contents"not in result:
             return None
         # return a sorted list of file names (key), which are the creation dates, ignore the prefix (len(cache_path)), ignore the first element, as this is only the prefix
-        return sorted([x["Key"][len(cache_path) :] for x in result["Contents"][1:]], reverse=True)
+        return sorted([x["Key"][len(cache_path) :] for x in result["Contents"]], reverse=True)
 
     def get_site_links(self, path):
         s3 = boto3.resource('s3')

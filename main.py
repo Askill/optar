@@ -1,6 +1,6 @@
-from optar.src.Crawler import Crawler
-from optar.src.SiteReader import SiteReader
-from optar.src.SiteStoreS3 import SiteStoreS3
+from src.Crawler import Crawler
+from src.SiteReader import SiteReader
+from src.SiteStoreS3 import SiteStoreS3
 from src.Watcher import Watcher
 
 if __name__ == "__main__":
